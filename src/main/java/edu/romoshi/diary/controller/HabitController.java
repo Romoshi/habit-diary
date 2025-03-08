@@ -2,15 +2,19 @@ package edu.romoshi.diary.controller;
 
 import edu.romoshi.diary.dto.HabitDTO;
 import edu.romoshi.diary.entity.Habit;
+import edu.romoshi.diary.entity.User;
 import edu.romoshi.diary.service.HabitService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/habits")
+@Validated
 public class HabitController {
 
     private final HabitService habitService;
@@ -33,12 +37,13 @@ public class HabitController {
     }
 
     @PostMapping
-    public Habit createHabit(@RequestBody HabitDTO habitDTO) {
-        return habitService.saveHabit(habitDTO);
+    public ResponseEntity<Habit> createHabit(@Valid @RequestBody HabitDTO habitDTO) {
+        Habit habit = habitService.saveHabit(habitDTO);
+        return ResponseEntity.ok(habit);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Habit> updateHabit(@PathVariable Long id, @RequestBody HabitDTO habitDTO) {
+    public ResponseEntity<Habit> updateHabit(@PathVariable Long id, @Valid @RequestBody HabitDTO habitDTO) {
         return habitService.updateHabit(id, habitDTO)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
