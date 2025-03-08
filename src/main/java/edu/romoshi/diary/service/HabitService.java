@@ -1,5 +1,6 @@
 package edu.romoshi.diary.service;
 
+import edu.romoshi.diary.dto.HabitDTO;
 import edu.romoshi.diary.entity.Habit;
 import edu.romoshi.diary.repository.HabitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +27,20 @@ public class HabitService {
         return habitRepository.findById(id);
     }
 
-    public Habit saveHabit(Habit habit) {
+    public Habit saveHabit(HabitDTO habitDTO) {
+        Habit habit = new Habit();
+        habit.setName(habitDTO.getName());
+        habit.setDescription(habitDTO.getDescription());
+        habit.setFrequency(habitDTO.getFrequency());
         return habitRepository.save(habit);
     }
 
-    public Optional<Habit> updateHabit(Long id, Habit habitDetails) {
+    public Optional<Habit> updateHabit(Long id, HabitDTO habitDTO) {
         return habitRepository.findById(id)
                 .map(habit -> {
-                    habit.setDescription(habitDetails.getDescription());
-                    habit.setFrequency(habitDetails.getFrequency());
-                    return habitRepository.save(habitDetails);
+                    habit.setDescription(habitDTO.getDescription());
+                    habit.setFrequency(habitDTO.getFrequency());
+                    return habitRepository.save(habit);
                 });
     }
 

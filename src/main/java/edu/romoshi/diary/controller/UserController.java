@@ -1,6 +1,7 @@
 package edu.romoshi.diary.controller;
 
 
+import edu.romoshi.diary.dto.UserDTO;
 import edu.romoshi.diary.entity.User;
 import edu.romoshi.diary.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,13 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    public User createUser(@RequestBody UserDTO userDTO) {
+        return userService.saveUser(userDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
-        return userService.updateUser(id, userDetails)
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+        return userService.updateUser(id, userDTO)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

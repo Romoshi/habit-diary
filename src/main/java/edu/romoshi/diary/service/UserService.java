@@ -1,5 +1,6 @@
 package edu.romoshi.diary.service;
 
+import edu.romoshi.diary.dto.UserDTO;
 import edu.romoshi.diary.entity.User;
 import edu.romoshi.diary.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,10 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User saveUser(User user) {
+    public User saveUser(UserDTO userDTO) {
+        User user = new User();
+        user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
         return userRepository.save(user);
     }
 
@@ -25,11 +29,11 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public Optional<User> updateUser(Long id, User userDetails) {
+    public Optional<User> updateUser(Long id, UserDTO userDTO) {
         return userRepository.findById(id)
                 .map(user -> {
-                    user.setName(userDetails.getName());
-                    user.setEmail(userDetails.getEmail());
+                    user.setName(userDTO.getName());
+                    user.setEmail(userDTO.getEmail());
                     return userRepository.save(user);
                 });
     }

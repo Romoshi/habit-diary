@@ -1,12 +1,13 @@
 package edu.romoshi.diary.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "habit_t")
 public class Habit {
@@ -21,7 +22,13 @@ public class Habit {
 
     private int frequency;
 
-    private LocalDate createdDate;
-
     private Long userId;
+
+    @Column(updatable = false)
+    private LocalDate registrationDate;
+
+    @PrePersist
+    protected void onCreate() {
+        registrationDate = LocalDate.now();
+    }
 }

@@ -1,5 +1,6 @@
 package edu.romoshi.diary.controller;
 
+import edu.romoshi.diary.dto.HabitDTO;
 import edu.romoshi.diary.entity.Habit;
 import edu.romoshi.diary.service.HabitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,6 @@ import java.util.List;
 public class HabitController {
 
     private final HabitService habitService;
-
-    //o	DELETE /habits/{id} — удалить привычку
 
     @Autowired
     public HabitController(HabitService habitService) {
@@ -34,13 +33,13 @@ public class HabitController {
     }
 
     @PostMapping
-    public Habit createHabit(@RequestBody Habit habit) {
-        return habitService.saveHabit(habit);
+    public Habit createHabit(@RequestBody HabitDTO habitDTO) {
+        return habitService.saveHabit(habitDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Habit> updateHabit(@PathVariable Long id, @RequestBody Habit habitDetails) {
-        return habitService.updateHabit(id, habitDetails)
+    public ResponseEntity<Habit> updateHabit(@PathVariable Long id, @RequestBody HabitDTO habitDTO) {
+        return habitService.updateHabit(id, habitDTO)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

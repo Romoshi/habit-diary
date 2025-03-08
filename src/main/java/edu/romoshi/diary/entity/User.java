@@ -1,13 +1,13 @@
 package edu.romoshi.diary.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "user_t")
 public class User {
@@ -20,5 +20,13 @@ public class User {
 
     private String email;
 
+    @Column(updatable = false)
     private LocalDate registrationDate;
+
+    @PrePersist
+    protected void onCreate() {
+        registrationDate = LocalDate.now();
+    }
 }
+
+
